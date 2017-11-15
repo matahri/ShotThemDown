@@ -14,7 +14,7 @@ function shoot()
             new THREE.SphereGeometry(2),
             bullet_player1_material);
         scene.add(bullet);
-        bullet.position.x = position.x + 7.5 * Math.cos(player1.direction);
+        bullet.position.x = player1.graphic.position.x + 7.5 * Math.cos(player1.direction);
         bullet.position.y = player1.graphic.position.y + 7.5 * Math.sin(player1.direction);
         bullet.angle = player1.direction;
         player1.bullets.push(bullet);
@@ -53,13 +53,18 @@ function bullet_collision()
             i--;
         }
 
-        if (Math.abs(player1.bullets[i].position.x) == enemy.graphic.position.x &&
-        Math.abs(player1.bullets[i].position.y) == enemy.graphic.position.y)
+        enemyx = enemy.graphic.position.x;
+        enemyy = enemy.graphic.position.y;
+    
+        diffx = Math.abs(player1.bullets[i].position.x - enemyx);
+        diffy = Math.abs(player1.bullets[i].position.y - enemyy);
+    
+        if (diffx <= 7 && diffy <= 7)
         {
+            enemy.dead();
             scene.remove(player1.bullets[i]);
             player1.bullets.splice(i, 1);
             i--;
-            enemy.dead();
         }
     }
 }
@@ -76,10 +81,18 @@ function player_collision()
     if (enemy.life <= 0)
         enemy.dead();
 
-    if (((player1.graphic.position.x - enemy.graphic.position.x < 2) || (player1.graphic.position.x - enemy.graphic.position.x > 2)) && player1.graphic.position.y == enemy.graphic.position.y)
+    playerx = player1.graphic.position.x;
+    playery = player1.graphic.position.y;
+    enemyx = enemy.graphic.position.x;
+    enemyy = enemy.graphic.position.y;
+
+    diffx = Math.abs(playerx - enemyx);
+    diffy = Math.abs(playery - enemyy);
+
+    if (diffx <= 7 && diffy <= 7)
     {
         player1.life--;
-        enemy.life--;
+        enemy_collision.life--;
     }
 
     if ( player1.graphic.position.x > WIDTH/2 )
