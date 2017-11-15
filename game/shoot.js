@@ -108,13 +108,13 @@ function player_collision()
 
 function enemy_collision()
 {
-    if (enemy.graphic.position.x > WIDTH/2)
+    if (enemy.graphic.position.x > WIDTH/2 - 5)
         enemy.direction = 180;
-    if (enemy.graphic.position.x < -(WIDTH/2))
+    if (enemy.graphic.position.x < -(WIDTH/2) + 5)
         enemy.direction = 0;
-    if (enemy.graphic.position.y > HEIGHT/2)
+    if (enemy.graphic.position.y > HEIGHT/2 - 5)
         enemy.direction = 270;
-    if (enemy.graphic.position.y < -(HEIGHT/2))
+    if (enemy.graphic.position.y < -(HEIGHT/2) + 5)
         enemy.direction = 90;
 
 }
