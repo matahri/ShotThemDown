@@ -59,9 +59,9 @@ function bullet_collision()
         diffx = Math.abs(player1.bullets[i].position.x - enemyx);
         diffy = Math.abs(player1.bullets[i].position.y - enemyy);
     
-        if (diffx <= 7 && diffy <= 7)
+        if (diffx <= 15 && diffy <= 15)
         {
-            enemy.dead();
+            scene.remove(enemy.graphic);
             scene.remove(player1.bullets[i]);
             player1.bullets.splice(i, 1);
             i--;
@@ -79,7 +79,7 @@ function player_collision()
         player1.dead();
 
     if (enemy.life <= 0)
-        enemy.dead();
+        scene.remove(enemy);
 
     playerx = player1.graphic.position.x;
     playery = player1.graphic.position.y;
