@@ -31,7 +31,7 @@
     <div id="container"></div>
     <div id="player1">
         <strong>Joueur 1</strong>
-        <span class="life">3</span> vies
+        <span class="life">3</span>
     </div>
 </body>
 
@@ -40,6 +40,7 @@
 <script src="js/OrbitControls.js"></script>
 <script src="js/THREEx.KeyboardState.js"></script>
 <script src="game/player.js"></script>
+<script src="game/enemy.js"></script>
 <script src="game/graphic.js"></script>
 <script src="game/physic.js"></script>
 <script src="game/shoot.js"></script>
@@ -50,6 +51,7 @@
     var clock = new THREE.Clock();
     var player1,
         player2;
+    var enemy;
     var WIDTH = 600,
         HEIGHT = 400;
 

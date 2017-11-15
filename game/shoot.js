@@ -14,7 +14,7 @@ function shoot()
             new THREE.SphereGeometry(2),
             bullet_player1_material);
         scene.add(bullet);
-        bullet.position.x = player1.graphic.position.x + 7.5 * Math.cos(player1.direction);
+        bullet.position.x = position.x + 7.5 * Math.cos(player1.direction);
         bullet.position.y = player1.graphic.position.y + 7.5 * Math.sin(player1.direction);
         bullet.angle = player1.direction;
         player1.bullets.push(bullet);
@@ -36,7 +36,8 @@ function collisions()
 {
     bullet_collision();
     player_collision();
-    player_falling();
+    enemy_collision();
+    //player_falling();
 }
 
 function bullet_collision()
@@ -51,8 +52,16 @@ function bullet_collision()
             player1.bullets.splice(i, 1);
             i--;
         }
-    }
 
+        if (Math.abs(player1.bullets[i].position.x) == enemy.graphic.position.x &&
+        Math.abs(player1.bullets[i].position.y) == enemy.graphic.position.y)
+        {
+            scene.remove(player1.bullets[i]);
+            player1.bullets.splice(i, 1);
+            i--;
+            enemy.dead();
+        }
+    }
 }
 
 function player_collision()
@@ -61,12 +70,39 @@ function player_collision()
     var x = player1.graphic.position.x + WIDTH / 2;
     var y = player1.graphic.position.y + HEIGHT / 2;
 
-    if ( x > WIDTH )
-        player1.graphic.position.x -= x - WIDTH;
-    if ( y < 0 )
-        player1.graphic.position.y -= y;
-    if ( y > HEIGHT )
-        player1.graphic.position.y -= y - HEIGHT;
+    if (player1.life <= 0)
+        player1.dead();
+
+    if (enemy.life <= 0)
+        enemy.dead();
+
+    if (((player1.graphic.position.x - enemy.graphic.position.x < 2) || (player1.graphic.position.x - enemy.graphic.position.x > 2)) && player1.graphic.position.y == enemy.graphic.position.y)
+    {
+        player1.life--;
+        enemy.life--;
+    }
+
+    if ( player1.graphic.position.x > WIDTH/2 )
+        player1.graphic.position.x = WIDTH/2 - 1;
+    if ( player1.graphic.position.x < -(WIDTH/2))
+        player1.graphic.position.x = -(WIDTH/2) + 1;
+    if ( player1.graphic.position.y < -(HEIGHT/2) )
+        player1.graphic.position.y = -(HEIGHT/2) + 1;
+    if ( player1.graphic.position.y > (HEIGHT/2) )
+        player1.graphic.position.y = (HEIGHT/2) - 1;
+
+}
+
+function enemy_collision()
+{
+    if (enemy.graphic.position.x > WIDTH/2)
+        enemy.direction = 180;
+    if (enemy.graphic.position.x < -(WIDTH/2))
+        enemy.direction = 0;
+    if (enemy.graphic.position.y > HEIGHT/2)
+        enemy.direction = 270;
+    if (enemy.graphic.position.y < -(HEIGHT/2))
+        enemy.direction = 90;
 
 }
 
